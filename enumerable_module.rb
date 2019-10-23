@@ -37,56 +37,68 @@ module Enumerable
   def my_all?
     return true unless block_given?
 
-    self.my_select{ |item| yield item }.length == self.length
+    if self.is_a?(Hash)
+      self.my_select{ |item, value| yield(item, value) }.length == self.length
+    else
+      self.my_select{ |item| yield(item) }.length == self.length
+    end
   end
 
   def my_any?
     return true unless block_given?
 
-    self.my_select{ |item| yield item }.length.positive?
+    if self.is_a?(Hash)
+      self.my_select{ |item, value| yield(item, value) }.length.positive?
+    else
+      self.my_select{ |item| yield(item) }.length.positive?
+    end
   end
 
   def my_none?
     return false unless block_given?
 
-    self.my_select{ |item| yield item }.length.zero?
+    if self.is_a?(Hash)
+      self.my_select{ |item, value| yield(item, value) }.length.zero?
+    else
+      self.my_select{ |item| yield item }.length.zero?
+    end
   end
 end
 
 arr = %w[a b c c d]
 arrnum = [1, 2, 3, 4, 5, 6]
 hash = { a: 1, b: 2, c: 3, d: 4 }
-arr.each { |x| puts x }
-arr.my_each { |x| puts x }
-hash.each { |x, y| puts x.to_s + y.to_s }
-hash.my_each { |x, y| puts x.to_s + y.to_s }
-p arr.each
-p arr.my_each
+# arr.each { |x| puts x }
+# arr.my_each { |x| puts x }
+# hash.each { |x, y| puts x.to_s + y.to_s }
+# hash.my_each { |x, y| puts x.to_s + y.to_s }
+# p arr.each
+# p arr.my_each
 
-arr.each_with_index { |x, y| puts x.to_s + y.to_s }
-arr.each_with_index { |x, y| puts x.to_s + y.to_s }
-hash.each_with_index { |x, y| puts x.to_s + y.to_s }
-hash.my_each_with_index { |x, y| puts x.to_s + y.to_s }
-p arr.each_with_index
-p arr.my_each_with_index
+# arr.each_with_index { |x, y| puts x.to_s + y.to_s }
+# arr.each_with_index { |x, y| puts x.to_s + y.to_s }
+# hash.each_with_index { |x, y| puts x.to_s + y.to_s }
+# hash.my_each_with_index { |x, y| puts x.to_s + y.to_s }
+# p arr.each_with_index
+# p arr.my_each_with_index
 
-puts(arr.select { |x| x < 'c' })
-puts(arr.my_select { |x| x < 'c' })
-puts(hash.select { |_x, y| y < 4 })
-puts(hash.my_select { |_x, y| y < 4 })
-p arr.select
-p arr.my_select
+# puts(arr.select { |x| x < 'c' })
+# puts(arr.my_select { |x| x < 'c' })
+# puts(hash.select { |_x, y| y < 4 })
+# puts(hash.my_select { |_x, y| y < 4 })
+# p arr.select
+# p arr.my_select
 
-puts(arr.all? { |x| x < 'd' })
-puts(arr.all? { |x| x < 'f' })
-puts(arr.my_all? { |x| x < 'd' })
-puts(arr.my_all? { |x| x < 'f' })
-puts(hash.all? { |_x, y| y < 4 })
-puts(hash.all? { |_x, y| y < 5 })
-puts(hash.my_all? { |_x, y| y < 4 })
-puts(hash.my_all? { |_x, y| y < 5 })
-p arr.all
-p arr.my_all
+# puts(arr.all? { |x| x < 'd' })
+# puts(arr.all? { |x| x < 'f' })
+# puts(arr.my_all? { |x| x < 'd' })
+# puts(arr.my_all? { |x| x < 'f' })
+# puts(hash.all? { |_x, y| y < 4 })
+# puts(hash.all? { |_x, y| y < 5 })
+# puts(hash.my_all? { |_x, y| y < 4 })
+# puts(hash.my_all? { |_x, y| y < 5 })
+# p arr.all?
+# p arr.my_all?
 
 # puts(arr.any? { |x| x < 'd' })
 # puts(arr.any? { |x| x < 'f' })
@@ -96,8 +108,8 @@ p arr.my_all
 # puts(hash.any? { |_x, y| y < 5 })
 # puts(hash.my_any? { |_x, y| y < 4 })
 # puts(hash.my_any? { |_x, y| y < 5 })
-# p arr.any
-# p arr.my_any
+# p arr.any?
+# p arr.my_any?
 
 # puts(arr.none? { |x| x < 'd' })
 # puts(arr.none? { |x| x < 'f' })
@@ -107,8 +119,8 @@ p arr.my_all
 # puts(hash.none? { |_x, y| y < 5 })
 # puts(hash.my_none? { |_x, y| y < 4 })
 # puts(hash.my_none? { |_x, y| y < 5 })
-# p arr.none
-# p arr.my_none
+# p arr.none?
+# p arr.my_none?
 
 # puts arr.count
 # puts arr.count('c')
