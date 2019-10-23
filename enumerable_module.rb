@@ -39,6 +39,12 @@ module Enumerable
 
     self.my_select{ |item| yield item }.length == self.length
   end
+
+  def my_any?
+    return true unless block_given?
+
+    self.my_select{ |item| yield item }.length.positive?
+  end
 end
 
 arr = %w[a b c c d]
