@@ -63,6 +63,18 @@ module Enumerable
       self.my_select{ |item| yield item }.length.zero?
     end
   end
+
+  def my_count(arg = nil)
+    arr = []
+    if block_given?
+      self.my_each { |i| arr << i if yield i }
+    elsif !arg.nil?
+      self.my_select { |i| arr << i if i == arg }
+    else
+      arr = self
+    end
+    arr.size
+  end
 end
 
 arr = %w[a b c c d]
@@ -122,17 +134,18 @@ hash = { a: 1, b: 2, c: 3, d: 4 }
 # p arr.none?
 # p arr.my_none?
 
-# puts arr.count
-# puts arr.count('c')
-# puts arr.count {|x| x<'c'}
-# puts arr.my_count
-# puts arr.my_count('c')
-# puts arr.my_count {|x| x<'c'}
-
-# puts hash.count
-# puts hash.count{|x,y| y<3}
-# puts hash.my_count
-# puts hash.my_count{|x,y| y<3}
+puts arr.count
+puts arr.count('c')
+puts(arr.count { |x| x < 'c' })
+puts arr.my_count
+puts arr.my_count('c')
+puts(arr.my_count { |x| x < 'c' })
+puts hash.count
+puts(hash.count { |_x, y| y < 3 })
+puts hash.my_count
+puts(hash.my_count { |_x, y| y < 3 })
+p arr.count
+p arr.my_count
 
 # puts arrnum.map {|x| x*2}
 # puts arrnum.my_map {|x| x*2}
