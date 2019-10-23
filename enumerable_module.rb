@@ -75,6 +75,18 @@ module Enumerable
     end
     arr.size
   end
+
+  def my_map(proc = nil)
+    return enum_for :my_map unless block_given?
+
+    arr = []
+    if proc
+      self.my_each { |value| arr << proc.call(value) }
+    else
+      self.my_each { |value| arr << yield(value) }
+    end
+    arr
+  end
 end
 
 arr = %w[a b c c d]
@@ -134,21 +146,25 @@ hash = { a: 1, b: 2, c: 3, d: 4 }
 # p arr.none?
 # p arr.my_none?
 
-puts arr.count
-puts arr.count('c')
-puts(arr.count { |x| x < 'c' })
-puts arr.my_count
-puts arr.my_count('c')
-puts(arr.my_count { |x| x < 'c' })
-puts hash.count
-puts(hash.count { |_x, y| y < 3 })
-puts hash.my_count
-puts(hash.my_count { |_x, y| y < 3 })
-p arr.count
-p arr.my_count
+# puts arr.count
+# puts arr.count('c')
+# puts(arr.count { |x| x < 'c' })
+# puts arr.my_count
+# puts arr.my_count('c')
+# puts(arr.my_count { |x| x < 'c' })
+# puts hash.count
+# puts(hash.count { |_x, y| y < 3 })
+# puts hash.my_count
+# puts(hash.my_count { |_x, y| y < 3 })
+# p arr.count
+# p arr.my_count
 
-# puts arrnum.map {|x| x*2}
-# puts arrnum.my_map {|x| x*2}
-# proc = Proc.new {|x| x*3}
-# puts arrnum.my_map(proc)
-# puts arrnum.my_map(proc) {|x| x*2}
+# puts(arrnum.map { |x| x * 2 })
+# puts(arrnum.my_map { |x| x * 2 })
+# block_proc = proc { |x| x * 3 }
+# puts arrnum.map(&block_proc)
+# puts arrnum.my_map(&block_proc)
+# puts(arrnum.map { |x| x * 2 })
+# puts(arrnum.my_map { |x| x * 2 })
+# p arr.map
+# p arr.my_map
