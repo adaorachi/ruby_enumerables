@@ -87,11 +87,24 @@ module Enumerable
     end
     arr
   end
+
+  def my_inject(acc = nil)
+    n = acc ? 0 : 1
+    acc = self[0] if !acc
+    (n..self.length-1).my_each {|value|
+        acc = yield(acc, self[value])
+      }
+      acc
+  end
+
+  # def multiply_els
+  #   self.my_inject(100) { |product, n| product * n }
+  # end
 end
 
-arr = %w[a b c c d]
-arrnum = [1, 2, 3, 4, 5, 6]
-hash = { a: 1, b: 2, c: 3, d: 4 }
+# arr = %w[a b c c d]
+# arrnum = [1, 2, 3, 4, 5, 6]
+# hash = { a: 1, b: 2, c: 3, d: 4 }
 # arr.each { |x| puts x }
 # arr.my_each { |x| puts x }
 # hash.each { |x, y| puts x.to_s + y.to_s }
@@ -168,3 +181,8 @@ hash = { a: 1, b: 2, c: 3, d: 4 }
 # puts(arrnum.my_map { |x| x * 2 })
 # p arr.map
 # p arr.my_map
+
+# puts arrnum.inject(0) { |x, y| x + y }
+# puts arrnum.inject(100) { |x, y| x - y }
+# puts arrnum.my_inject(0) { |x, y| x + y }
+# puts arrnum.my_inject(100) { |x, y| x - y }
