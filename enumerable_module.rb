@@ -28,10 +28,16 @@ module Enumerable
     arr = self.is_a?(Hash) ? {} : []
     if self.is_a?(Hash)
       self.my_each {|key, value| arr[key] = value if yield(key, value) }
-    elsif self.is_a?(Array)
+    else
       self.my_each { |value| arr << value if yield value }
     end
     arr
+  end
+
+  def my_all?
+    return true unless block_given?
+
+    self.my_select{ |item| yield item }.length == self.length
   end
 end
 
@@ -59,32 +65,38 @@ puts(hash.my_select { |_x, y| y < 4 })
 p arr.select
 p arr.my_select
 
-# puts arr.all? {|x| x<'d'}
-# puts arr.all? {|x| x<'f'}
-# puts arr.my_all? {|x| x<'d'}
-# puts arr.my_all? {|x| x<'f'}
-# puts hash.all? {|x,y| y<4}
-# puts hash.all? {|x,y| y<5}
-# puts hash.my_all? {|x,y| y<4}
-# puts hash.my_all? {|x,y| y<5}
+puts(arr.all? { |x| x < 'd' })
+puts(arr.all? { |x| x < 'f' })
+puts(arr.my_all? { |x| x < 'd' })
+puts(arr.my_all? { |x| x < 'f' })
+puts(hash.all? { |_x, y| y < 4 })
+puts(hash.all? { |_x, y| y < 5 })
+puts(hash.my_all? { |_x, y| y < 4 })
+puts(hash.my_all? { |_x, y| y < 5 })
+p arr.all
+p arr.my_all
 
-# puts arr.any? {|x| x<'d'}
-# puts arr.any? {|x| x<'a'}
-# puts arr.my_any? {|x| x<'d'}
-# puts arr.my_any? {|x| x<'a'}
-# puts hash.any? {|x,y| y<4}
-# puts hash.any? {|x,y| y<0}
-# puts hash.my_any? {|x,y| y<4}
-# puts hash.my_any? {|x,y| y<0}
+# puts(arr.any? { |x| x < 'd' })
+# puts(arr.any? { |x| x < 'f' })
+# puts(arr.my_any? { |x| x < 'd' })
+# puts(arr.my_any? { |x| x < 'f' })
+# puts(hash.any? { |_x, y| y < 4 })
+# puts(hash.any? { |_x, y| y < 5 })
+# puts(hash.my_any? { |_x, y| y < 4 })
+# puts(hash.my_any? { |_x, y| y < 5 })
+# p arr.any
+# p arr.my_any
 
-# puts arr.none? {|x| x<'d'}
-# puts arr.none? {|x| x<'a'}
-# puts arr.my_none? {|x| x<'d'}
-# puts arr.my_none? {|x| x<'a'}
-# puts hash.none? {|x,y| y<4}
-# puts hash.none? {|x,y| y<0}
-# puts hash.my_none? {|x,y| y<4}
-# puts hash.my_none? {|x,y| y<0}
+# puts(arr.none? { |x| x < 'd' })
+# puts(arr.none? { |x| x < 'f' })
+# puts(arr.my_none? { |x| x < 'd' })
+# puts(arr.my_none? { |x| x < 'f' })
+# puts(hash.none? { |_x, y| y < 4 })
+# puts(hash.none? { |_x, y| y < 5 })
+# puts(hash.my_none? { |_x, y| y < 4 })
+# puts(hash.my_none? { |_x, y| y < 5 })
+# p arr.none
+# p arr.my_none
 
 # puts arr.count
 # puts arr.count('c')
