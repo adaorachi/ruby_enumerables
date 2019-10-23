@@ -97,9 +97,9 @@ module Enumerable
       acc
   end
 
-  # def multiply_els
-  #   self.my_inject(100) { |product, n| product * n }
-  # end
+  def multiply_els
+    self.my_inject(100) { |product, n| product * n }
+  end
 end
 
 # arr = %w[a b c c d]
