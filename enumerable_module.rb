@@ -88,10 +88,8 @@ module Enumerable
 
   def my_inject(acc = nil)
     n = acc ? 0 : 1
-    acc = self[0] unless acc
-    (n..length - 1).my_each { |value|
-      acc = yield(acc, self[value])
-    }
+    acc ||= self[0]
+    (n..length - 1).my_each { |value| acc = yield(acc, self[value]) }
     acc
   end
 
