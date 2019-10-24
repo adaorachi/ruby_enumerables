@@ -43,13 +43,26 @@ module Enumerable
   end
 
   def my_all?
-    return true unless block_given?
-
-    if is_a?(Hash)
-      my_select { |item, value| yield(item, value) }.length == length
+    if block_given?
+      if is_a?(Hash)
+        my_each { |item, value| return false unless yield(item, value) }
+      else
+        my_each { |item| return false unless yield item }
+      end
     else
-      my_select { |item| yield(item) }.length == length
+      if is_a?(Hash)
+        my_each { |item, value| return false unless item && value }
+      else
+        my_each { |item| return false unless item }
+      end
     end
+    true
+   
+    # if is_a?(Hash)
+    #   my_select { |item, value| yield(item, value) }.length == length
+    # else
+    #   my_select { |item| yield(item) }.length == length
+    # end
   end
 
   def my_any?
@@ -110,9 +123,11 @@ end
 
 # Examples to test methods with
 
-# arr = %w[a b c c d]
-# arrnum = [1, 2, 3, 4, 5, 6]
-# hash = { a: 1, b: 2, c: 3, d: 4 }
+arr = %w[a b c c d]
+arr1 = [nil, 'a', 'b']
+arrnum = [1, 2, 3, 4, 5, 6]
+hash = { 1=> 1, 2=> 2, 3=> 3, 4=> 4 }
+false_array = [1, false, 'hi', []]
 # arr.each { |x| puts x }
 # arr.my_each { |x| puts x }
 # hash.each { |x, y| puts x.to_s + y.to_s }
@@ -134,16 +149,20 @@ end
 # p arr.select
 # p arr.my_select
 
-# puts(arr.all? { |x| x < 'd' })
-# puts(arr.all? { |x| x < 'f' })
-# puts(arr.my_all? { |x| x < 'd' })
-# puts(arr.my_all? { |x| x < 'f' })
-# puts(hash.all? { |_x, y| y < 4 })
-# puts(hash.all? { |_x, y| y < 5 })
-# puts(hash.my_all? { |_x, y| y < 4 })
-# puts(hash.my_all? { |_x, y| y < 5 })
-# p arr.all?
-# p arr.my_all?
+puts(arr.all? { |x| x < 'd' })
+puts(arr.all? { |x| x < 'f' })
+puts(arr.my_all? { |x| x < 'd' })
+puts(arr.my_all? { |x| x < 'f' })
+puts(hash.all? { |_x, y| _x+y >= 1 })
+puts(hash.all? { |_x, y| y > 3 })
+puts(hash.my_all? { |_x, y| _x+y >= 1 })
+puts(hash.my_all? { |_x, y| y > 3 })
+puts false_array.all?
+puts false_array.my_all?
+p arr.all?
+p arr.my_all?
+p hash.all?
+p hash.my_all?
 
 # puts(arr.any? { |x| x < 'd' })
 # puts(arr.any? { |x| x < 'f' })
