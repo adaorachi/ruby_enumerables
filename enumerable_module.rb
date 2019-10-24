@@ -4,8 +4,10 @@ module Enumerable
   def my_each
     return enum_for :my_each unless block_given?
 
-    for value in self
-      yield value
+    value = 0
+    while value < length
+      yield self[value]
+      value += 1
     end
     self
   end
@@ -14,8 +16,8 @@ module Enumerable
     return enum_for :my_each_with_index unless block_given?
 
     index = 0
-    for value in self
-      yield(value, index)
+    while index < length
+      yield(self[index], index)
       index += 1
     end
   end
@@ -109,7 +111,7 @@ end
 # p arr.my_each
 
 # arr.each_with_index { |x, y| puts x.to_s + y.to_s }
-# arr.each_with_index { |x, y| puts x.to_s + y.to_s }
+# arr.my_each_with_index { |x, y| puts x.to_s + y.to_s }
 # hash.each_with_index { |x, y| puts x.to_s + y.to_s }
 # hash.my_each_with_index { |x, y| puts x.to_s + y.to_s }
 # p arr.each_with_index
