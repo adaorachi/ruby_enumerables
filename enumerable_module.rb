@@ -99,7 +99,7 @@ module Enumerable
   def my_inject(acc = nil)
     n = acc ? 0 : 1
     acc ||= self[0]
-    (n..length - 1).my_each { |value| acc = yield(acc, self[value]) }
+    n.upto(length - 1) { |value| acc = yield(acc, self[value]) }
     acc
   end
 
@@ -107,6 +107,8 @@ module Enumerable
     my_inject(100) { |product, n| product * n }
   end
 end
+
+# Examples to test methods with
 
 # arr = %w[a b c c d]
 # arrnum = [1, 2, 3, 4, 5, 6]
