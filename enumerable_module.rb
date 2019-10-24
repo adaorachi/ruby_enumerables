@@ -4,10 +4,14 @@ module Enumerable
   def my_each
     return enum_for :my_each unless block_given?
 
-    value = 0
-    while value < length
-      yield self[value]
-      value += 1
+    index = 0
+    while index < length
+      if is_a?(Hash)
+        yield([keys[index], values[index]])
+      else
+        yield(self[index])
+      end
+      index += 1
     end
     self
   end
@@ -17,7 +21,11 @@ module Enumerable
 
     index = 0
     while index < length
-      yield(self[index], index)
+      if is_a?(Hash)
+        yield([keys[index], values[index]], index)
+      else
+        yield(self[index], index)
+      end
       index += 1
     end
   end
