@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Enumerable
-  SELF = self
-
   def my_each
     return enum_for :my_each unless block_given?
 
@@ -19,17 +17,17 @@ module Enumerable
     for value in self
       yield(value, index)
       index += 1
-    end 
+    end
   end
 
   def my_select
     return enum_for :my_select unless block_given?
 
-    arr = self.is_a?(Hash) ? {} : []
-    if self.is_a?(Hash)
-      self.my_each {|key, value| arr[key] = value if yield(key, value) }
+    arr = is_a?(Hash) ? {} : []
+    if is_a?(Hash)
+      my_each { |key, value| arr[key] = value if yield(key, value) }
     else
-      self.my_each { |value| arr << value if yield value }
+      my_each { |value| arr << value if yield value }
     end
     arr
   end
@@ -37,39 +35,39 @@ module Enumerable
   def my_all?
     return true unless block_given?
 
-    if self.is_a?(Hash)
-      self.my_select{ |item, value| yield(item, value) }.length == self.length
+    if is_a?(Hash)
+      my_select { |item, value| yield(item, value) }.length == length
     else
-      self.my_select{ |item| yield(item) }.length == self.length
+      my_select { |item| yield(item) }.length == length
     end
   end
 
   def my_any?
     return true unless block_given?
 
-    if self.is_a?(Hash)
-      self.my_select{ |item, value| yield(item, value) }.length.positive?
+    if is_a?(Hash)
+      my_select { |item, value| yield(item, value) }.length.positive?
     else
-      self.my_select{ |item| yield(item) }.length.positive?
+      my_select { |item| yield(item) }.length.positive?
     end
   end
 
   def my_none?
     return false unless block_given?
 
-    if self.is_a?(Hash)
-      self.my_select{ |item, value| yield(item, value) }.length.zero?
+    if is_a?(Hash)
+      my_select { |item, value| yield(item, value) }.length.zero?
     else
-      self.my_select{ |item| yield item }.length.zero?
+      my_select { |item| yield item }.length.zero?
     end
   end
 
   def my_count(arg = nil)
     arr = []
     if block_given?
-      self.my_each { |i| arr << i if yield i }
+      my_each { |i| arr << i if yield i }
     elsif !arg.nil?
-      self.my_select { |i| arr << i if i == arg }
+      my_select { |i| arr << i if i == arg }
     else
       arr = self
     end
@@ -81,24 +79,24 @@ module Enumerable
 
     arr = []
     if proc
-      self.my_each { |value| arr << proc.call(value) }
+      my_each { |value| arr << proc.call(value) }
     else
-      self.my_each { |value| arr << yield(value) }
+      my_each { |value| arr << yield(value) }
     end
     arr
   end
 
   def my_inject(acc = nil)
     n = acc ? 0 : 1
-    acc = self[0] if !acc
-    (n..self.length-1).my_each {|value|
-        acc = yield(acc, self[value])
-      }
-      acc
+    acc = self[0] unless acc
+    (n..length - 1).my_each { |value|
+      acc = yield(acc, self[value])
+    }
+    acc
   end
 
   def multiply_els
-    self.my_inject(100) { |product, n| product * n }
+    my_inject(100) { |product, n| product * n }
   end
 end
 
