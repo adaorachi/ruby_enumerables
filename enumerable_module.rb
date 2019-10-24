@@ -44,25 +44,14 @@ module Enumerable
 
   def my_all?
     if block_given?
-      if is_a?(Hash)
-        my_each { |item, value| return false unless yield(item, value) }
-      else
-        my_each { |item| return false unless yield item }
-      end
+      return my_select { |item, value| yield(item, value) }.length == length if is_a?(Hash)
+
+      my_select { |item| yield(item) }.length == length
     else
-      if is_a?(Hash)
-        my_each { |item, value| return false unless item && value }
-      else
-        my_each { |item| return false unless item }
-      end
+      return my_select { |item, value| (item && value) }.length == length if is_a?(Hash)
+
+      my_select { |item| item }.length == length
     end
-    true
-   
-    # if is_a?(Hash)
-    #   my_select { |item, value| yield(item, value) }.length == length
-    # else
-    #   my_select { |item| yield(item) }.length == length
-    # end
   end
 
   def my_any?
