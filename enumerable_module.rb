@@ -165,7 +165,14 @@ end
 # false_array = [1, false, 'hi', []]
 # false_array1 = [nil, false, nil, false]
 # false_array2 = [true, false, true, false]
-# array = [1, 4, 6, 5, 1, 1, 3, 0, 7, 4, 0, 6, 5, 3, 1, 1, 0, 7, 4, 2, 3, 7, 1, 3, 1, 8, 1, 6, 6, 0, 7, 2, 8, 5, 5, 0, 1, 5, 5, 1, 0, 1, 8, 2, 2, 3, 5, 4, 7, 6, 5, 1, 4, 8, 1, 7, 6, 7, 8, 0, 3, 6, 8, 7, 1, 3, 6, 4, 6, 6, 3, 1, 6, 8, 3, 3, 7, 7, 7, 5, 7, 4, 0, 0, 6, 5, 6, 8, 5, 6, 5, 6, 8, 0, 4, 1, 1, 5, 4, 3]
+# array = [
+#   1, 4, 6, 5, 1, 1, 3, 0, 7, 4, 0, 6, 5, 3, 1, 1, 0,
+#   7, 4, 2, 3, 7, 1, 3, 1, 8, 1, 6, 6, 0, 7, 2, 8, 5,
+#   5, 0, 1, 5, 5, 1, 0, 1, 8, 2, 2, 3, 5, 4, 7, 6, 5,
+#   1, 4, 8, 1, 7, 6, 7, 8, 0, 3, 6, 8, 7, 1, 3, 6, 4,
+#   6, 6, 3, 1, 6, 8, 3, 3, 7, 7, 7, 5, 7, 4, 0, 0, 6,
+#   5, 6, 8, 5, 6, 5, 6, 8, 0, 4, 1, 1, 5, 4, 3
+# ]
 # range = Range.new(5, 50)
 
 # arr.each { |x| puts x }
@@ -212,7 +219,7 @@ end
 # p words.all?('door')
 # p words.my_all?('door')
 # p [].all?
-# p [].my_all? 
+# p [].my_all?
 
 # puts(arr.any? { |x| x < 'd' })
 # puts(arr.any? { |x| x < 'f' })
@@ -299,7 +306,7 @@ end
 # p arrnum.my_inject(&:+)
 # p arrnum.my_inject(&:+)
 # [1,2,3,4].my_inject do |accumulator, element|
-#   puts "accumulator: #{accumulator}, element: #{element} - 
+#   puts "accumulator: #{accumulator}, element: #{element} -
 #   Adding them: #{accumulator} +  #{element} = #{accumulator + element}"
 #   accumulator + element
 # end
