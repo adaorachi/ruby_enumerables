@@ -101,15 +101,17 @@ module Enumerable
 
   def my_inject(*args)
     arr = is_a?(Range) ? to_a : self
+    acc = args[0]
     if block_given?
       n = args[0] ? 0 : 1
-      acc = args[0]
       acc ||= arr[0]
       n.upto(arr.length - 1) { |value| acc = yield(acc, arr[value]) }
     elsif args[0].is_a?(Symbol) || args[0].is_a?(Proc)
-      n = 1
       acc = arr[0]
-      n.upto(arr.length - 1) { |value| acc = args[0].to_proc.call(acc, arr[value]) }
+      1.upto(arr.length - 1) { |value| acc = args[0].to_proc.call(acc, arr[value]) }
+    else
+      arr.insert(0, args[0])
+      1.upto(arr.length - 1) { |value| acc = args[1].to_proc.call(acc, arr[value]) }
     end
     acc
   end
@@ -173,7 +175,8 @@ end
 #   6, 6, 3, 1, 6, 8, 3, 3, 7, 7, 7, 5, 7, 4, 0, 0, 6,
 #   5, 6, 8, 5, 6, 5, 6, 8, 0, 4, 1, 1, 5, 4, 3
 # ]
-# range = Range.new(5, 50)
+# range = Range.new(1, 50)
+# block_proc = proc { |x| x * 3 }
 
 # arr.each { |x| puts x }
 # arr.my_each { |x| puts x }
@@ -280,7 +283,6 @@ end
 
 # p(arrnum.map { |x| x * 2 })
 # p(arrnum.my_map { |x| x * 2 })
-# block_proc = proc { |x| x * 3 }
 # p arrnum.map(&block_proc)
 # p arrnum.my_map(&block_proc)
 # p(arrnum.map { |x| x * 2 })
@@ -304,8 +306,10 @@ end
 # p arrnum.my_inject(&block_proc)
 # p arrnum.inject(&:+)
 # p arrnum.my_inject(&:+)
-# p arrnum.my_inject(&:+)
-# [1,2,3,4].my_inject do |accumulator, element|
+
+# p range.inject(2, :*)
+# p range.my_inject(2, :*)
+# [1, 2, 3, 4].my_inject do |accumulator, element|
 #   puts "accumulator: #{accumulator}, element: #{element} -
 #   Adding them: #{accumulator} +  #{element} = #{accumulator + element}"
 #   accumulator + element
