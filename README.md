@@ -17,7 +17,6 @@ It is pretty simple to setup. All you have to do is to clone the project into yo
 
 ## Technologies
 * Ruby (Language)
-* VSCode (Text Editor)
 
 ## Features
 List of features ready and TODOs for future development
