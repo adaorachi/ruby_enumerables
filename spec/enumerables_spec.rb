@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './enumerable_module.rb'
 
 RSpec.describe 'Enumerable' do
@@ -6,51 +8,51 @@ RSpec.describe 'Enumerable' do
   let(:word_arr) { %w[dog door rod blade rod] }
   let(:hash) { { a: 1, b: 2, c: 3, d: 4 } }
   let(:bool_arr) { [nil, false, nil, false, true] }
-  let(:block_proc) { proc{ |x| x * 3 } }
+  let(:block_proc) { proc { |x| x * 3 } }
   let(:hashed_array) do
-  [
-    {
-      first_name: 'Gary',
-      job_title: 'car enthusiast',
-      salary: 14_000
-    },
-    {
-      first_name: 'Claire',
-      job_title: 'developer',
-      salary: 15_000
-    },
-    {
-      first_name: 'Clem',
-      job_title: 'developer',
-      salary: 12_000
-    }
-  ]
+    [
+      {
+        first_name: 'Gary',
+        job_title: 'car enthusiast',
+        salary: 14_000
+      },
+      {
+        first_name: 'Claire',
+        job_title: 'developer',
+        salary: 15_000
+      },
+      {
+        first_name: 'Clem',
+        job_title: 'developer',
+        salary: 12_000
+      }
+    ]
   end
 
   describe '#my_each' do
-   context 'If block is given' do
-     it 'iterates the given block for each array item adding a number to it' do
-    my_array = []
-    original_array = []
-    num_arr.my_each { |i| my_array << i + 2 }
-    num_arr.each { |i| original_array << i + 2 }
-    expect(my_array).to eql(original_array)
-     end
+    context 'If block is given' do
+      it 'iterates the given block for each array item adding a number to it' do
+        my_array = []
+        original_array = []
+        num_arr.my_each { |i| my_array << i + 2 }
+        num_arr.each { |i| original_array << i + 2 }
+        expect(my_array).to eql(original_array)
+      end
 
-     it 'iterates the given block for each hash item summing up its key and value element' do
-    my_hash = []
-    original_hash = []
-    hash.my_each { |x, y| my_hash << x.to_s + y.to_s  }
-    hash.each { |x, y| original_hash << x.to_s + y.to_s }
-    expect(my_hash).to eql(original_hash)
-     end
-   end
-
-   context 'If block is not given' do
-    it 'returns an enumerator' do
-      expect(num_arr.my_each.is_a?(Enumerable)).not_to be false
+      it 'iterates the given block for each hash item summing up its key and value element' do
+        my_hash = []
+        original_hash = []
+        hash.my_each { |x, y| my_hash << x.to_s + y.to_s  }
+        hash.each { |x, y| original_hash << x.to_s + y.to_s }
+        expect(my_hash).to eql(original_hash)
+      end
     end
-   end
+
+    context 'If block is not given' do
+      it 'returns an enumerator' do
+        expect(num_arr.my_each.is_a?(Enumerable)).not_to be false
+      end
+    end
   end
 
   describe 'my_each_with_index' do
@@ -88,7 +90,7 @@ RSpec.describe 'Enumerable' do
       it 'returns an enumerator' do
         expect(num_arr.my_each_with_index.is_a?(Enumerable)).not_to be false
       end
-     end
+    end
   end
 
   describe '#my_select' do
@@ -106,7 +108,7 @@ RSpec.describe 'Enumerable' do
       end
 
       it 'selects hash items that passes the conditions specified in the block' do
-        my_hash = hash.my_select  { |_x, y| y < 4 }
+        my_hash = hash.my_select { |_x, y| y < 4 }
         original_hash = hash.select { |_x, y| y < 4 }
         expect(my_hash).to eql(original_hash)
       end
@@ -116,7 +118,7 @@ RSpec.describe 'Enumerable' do
       it 'returns an enumerator' do
         expect(word_arr.my_select.is_a?(Enumerable)).not_to be false
       end
-     end
+    end
   end
 
   describe '#my_all?' do
@@ -221,19 +223,19 @@ RSpec.describe 'Enumerable' do
 
   describe 'my_map' do
     context 'If block is given' do
-      it 'It invokes the given block once for each array element and returns a new array of containing the values returned by the block' do
+      it 'It invokes the given block once for each array element and returns a new array' do
         my_array = num_arr.my_map { |x| x * 2 }
         original_array = num_arr.map { |x| x * 2 }
         expect(my_array).to eql(original_array)
       end
 
-      it 'It invokes the given block once for each array element and returns a new array of containing the values returned by the block' do
+      it 'It invokes the given block once for each array element and returns a new array' do
         my_array = word_arr.my_map { |x| x.chars.first }
         original_array = word_arr.map { |x| x.chars.first }
         expect(my_array).to eql(original_array)
       end
 
-      it 'It invokes the given block once for each hash element and returns a new array of containing the values returned by the block' do
+      it 'It invokes the given block once for each hash element and returns a new hash' do
         my_hash = hash.my_map { |k, v| [v, k.to_sym] }.to_h
         original_hash = hash.map { |k, v| [v, k.to_sym] }.to_h
         expect(my_hash).to eql(original_hash)
@@ -368,27 +370,7 @@ RSpec.describe 'Enumerable' do
   end
 
   describe '#my_inject' do
-    context 'If argument is given' do
-      context 'If block is given' do
-        it 'return the sum of all elements inside the array starting value equal the argument' do
-          my_array = num_arr.my_inject(10) { |x, y| x + y }
-          original_array = num_arr.inject(10) { |x, y| x + y }
-          expect(my_array).to eql(original_array)
-        end
-
-        it 'return the substraction of all elements inside the array starting value equal the argument' do
-          my_array = num_arr.my_inject(10) { |x, y| x - y }
-          original_array = num_arr.inject(10) { |x, y| x - y }
-          expect(my_array).to eql(original_array)
-        end
-
-        it 'return the multiply of all elements inside the array starting value equal the argument' do
-          my_array = num_arr.my_inject(10) { |x, y| x * y }
-          original_array = num_arr.inject(10) { |x, y| x * y }
-          expect(my_array).to eql(original_array)
-        end
-      end
-
+    context 'If only argument is given' do
       context 'If symbol is given as argument' do
         it 'return the sum of all element inside the array' do
           my_array = num_arr.my_inject(:+)
@@ -429,6 +411,26 @@ RSpec.describe 'Enumerable' do
           original_array = num_arr.inject(10, :+)
           expect(my_array).to eql(original_array)
         end
+      end
+    end
+
+    context 'If argument and block are given' do
+      it 'return the sum of all elements inside the array starting value equal the argument' do
+        my_array = num_arr.my_inject(10) { |x, y| x + y }
+        original_array = num_arr.inject(10) { |x, y| x + y }
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'return the substraction of all elements inside the array starting value equal the argument' do
+        my_array = num_arr.my_inject(10) { |x, y| x - y }
+        original_array = num_arr.inject(10) { |x, y| x - y }
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'return the multiply of all elements inside the array starting value equal the argument' do
+        my_array = num_arr.my_inject(10) { |x, y| x * y }
+        original_array = num_arr.inject(10) { |x, y| x * y }
+        expect(my_array).to eql(original_array)
       end
     end
 
