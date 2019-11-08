@@ -232,13 +232,25 @@ RSpec.describe 'Enumerable' do
         original_array = word_arr.map { |x| x.chars.first }
         expect(my_array).to eql(original_array)
       end
+
+      it 'It invokes the given block once for each hash element and returns a new array of containing the values returned by the block' do
+        my_hash = hash.my_map { |k, v| [v, k.to_sym] }.to_h
+        original_hash = hash.map { |k, v| [v, k.to_sym] }.to_h
+        expect(my_hash).to eql(original_hash)
+      end
     end
 
-    context 'If an argument is given instead of a block' do
-      it 'it counts the number of elements that are instance of the Class specified' do
+    context 'If a Proc is given instead of a block' do
+      it 'it counts the number of elements that meets the requirement of the Proc specified' do
         my_array = word_arr.map(&block_proc)
         original_array = word_arr.map(&block_proc)
         expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If no Proc and block not given' do
+      it 'returns an enumerator' do
+        expect(num_arr.my_map.is_a?(Enumerable)).not_to be false
       end
     end
   end
