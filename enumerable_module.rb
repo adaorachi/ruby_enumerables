@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Enumerable
+  def add(a,b)
+    a+b
+  end
+
   def my_each
     return enum_for :my_each unless block_given?
 
