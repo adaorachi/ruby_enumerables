@@ -110,8 +110,7 @@ module Enumerable
       acc = arr[0]
       1.upto(arr.length - 1) { |value| acc = args[0].to_proc.call(acc, arr[value]) }
     else
-      arr.insert(0, args[0])
-      1.upto(arr.length - 1) { |value| acc = args[1].to_proc.call(acc, arr[value]) }
+      0.upto(arr.length - 1) { |value| acc = args[1].to_proc.call(acc, arr[value]) }
     end
     acc
   end

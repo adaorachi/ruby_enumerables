@@ -254,4 +254,204 @@ RSpec.describe 'Enumerable' do
       end
     end
   end
+
+  describe '#my_any?' do
+    context 'If block is given' do
+      it 'returns true if any array elements meets the condition specified in the block and false otherwise' do
+        my_array = word_arr.my_any? { |x| x.length > 4 }
+        original_array = word_arr.any? { |x| x.length > 4 }
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if any hash elements meets the condition specified in the block and false otherwise' do
+        my_array = hash.my_any? { |_x, y| y.nil? }
+        original_array = hash.any? { |_x, y| y.nil? }
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If an argument is given instead of a block' do
+      it 'returns true if any elements are instance of the Class specified and false otherwise' do
+        my_array = num_arr.my_any?(Integer)
+        original_array = num_arr.any?(Integer)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if any elements meets the condition passed as a Symbol argument and false otherwise' do
+        my_array = num_arr.my_any?(:positive?)
+        original_array = num_arr.any?(:positive?)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if any elements meets the condition passed as a Regex argument and false otherwise' do
+        my_array = word_arr.my_any?(/d/)
+        original_array = word_arr.any?(/d/)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if any elements equals the argument passed and false otherwise' do
+        my_array = num_arr.my_any?(3)
+        original_array = num_arr.any?(3)
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If no block and argument is given' do
+      it 'returns true if any elements are truthy and false if otherwise' do
+        my_array = bool_arr.my_any?
+        original_array = bool_arr.any?
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If the array/hash is empty and no block and argument given' do
+      it 'returns false' do
+        expect([].my_any?).to be false
+      end
+    end
+  end
+
+  describe '#my_none?' do
+    context 'If block is given' do
+      it 'returns true if none array elements meets the condition specified in the block and false otherwise' do
+        my_array = word_arr.my_none? { |x| x.length > 4 }
+        original_array = word_arr.none? { |x| x.length > 4 }
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if none hash elements meets the condition specified in the block and false otherwise' do
+        my_array = hash.my_none? { |_x, y| y.nil? }
+        original_array = hash.none? { |_x, y| y.nil? }
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If an argument is given instead of a block' do
+      it 'returns true if none elements are instance of the Class specified and false otherwise' do
+        my_array = num_arr.my_none?(Integer)
+        original_array = num_arr.none?(Integer)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if none elements meets the condition passed as a Symbol argument and false otherwise' do
+        my_array = num_arr.my_none?(:positive?)
+        original_array = num_arr.none?(:positive?)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if none elements meets the condition passed as a Regex argument and false otherwise' do
+        my_array = word_arr.my_none?(/d/)
+        original_array = word_arr.none?(/d/)
+        expect(my_array).to eql(original_array)
+      end
+
+      it 'returns true if none elements equals the argument passed and false otherwise' do
+        my_array = num_arr.my_none?(3)
+        original_array = num_arr.none?(3)
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If no block and argument is given' do
+      it 'returns true if none elements are truthy and false if otherwise' do
+        my_array = bool_arr.my_none?
+        original_array = bool_arr.none?
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If the array/hash is empty and no block and argument given' do
+      it 'returns true' do
+        expect([].my_none?).to be true
+      end
+    end
+  end
+
+  describe '#my_inject' do
+    context 'If argument is given' do
+      context 'If block is given' do
+        it 'return the sum of all elements inside the array starting value equal the argument' do
+          my_array = num_arr.my_inject(10) { |x, y| x + y }
+          original_array = num_arr.inject(10) { |x, y| x + y }
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the substraction of all elements inside the array starting value equal the argument' do
+          my_array = num_arr.my_inject(10) { |x, y| x - y }
+          original_array = num_arr.inject(10) { |x, y| x - y }
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the multiply of all elements inside the array starting value equal the argument' do
+          my_array = num_arr.my_inject(10) { |x, y| x * y }
+          original_array = num_arr.inject(10) { |x, y| x * y }
+          expect(my_array).to eql(original_array)
+        end
+      end
+
+      context 'If symbol is given as argument' do
+        it 'return the sum of all element inside the array' do
+          my_array = num_arr.my_inject(:+)
+          original_array = num_arr.inject(:+)
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the substraction of all element inside the array' do
+          my_array = num_arr.my_inject(:-)
+          original_array = num_arr.inject(:-)
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the multiply of all element inside the array' do
+          my_array = num_arr.my_inject(:*)
+          original_array = num_arr.inject(:*)
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return true only if all elements are true or false if at least one element is false' do
+          my_array = bool_arr.my_inject(:&)
+          original_array = bool_arr.inject(:&)
+          expect(my_array).to eql(original_array)
+        end
+      end
+
+      context 'If proc is given as argument' do
+        it 'Its invokes the Proc passed on each element in the array' do
+          my_array = num_arr.my_inject(&block_proc)
+          original_array = num_arr.inject(&block_proc)
+          expect(my_array).to eql(original_array)
+        end
+      end
+
+      context 'If an integer and a symbol are passed as argument' do
+        it 'return the sum of all elements inside the array starting value equal the integer parameter' do
+          my_array = num_arr.my_inject(10, :+)
+          original_array = num_arr.inject(10, :+)
+          expect(my_array).to eql(original_array)
+        end
+      end
+    end
+
+    context 'If no argument is given' do
+      context 'If block is given' do
+        it 'return the sum of all elements inside the array' do
+          my_array = num_arr.my_inject { |x, y| x + y }
+          original_array = num_arr.inject { |x, y| x + y }
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the substraction of all elements inside the array' do
+          my_array = num_arr.my_inject { |x, y| x - y }
+          original_array = num_arr.inject { |x, y| x - y }
+          expect(my_array).to eql(original_array)
+        end
+
+        it 'return the multiply of all elements inside the array' do
+          my_array = num_arr.my_inject { |x, y| x * y }
+          original_array = num_arr.inject { |x, y| x * y }
+          expect(my_array).to eql(original_array)
+        end
+      end
+    end
+  end
 end
