@@ -370,47 +370,39 @@ RSpec.describe 'Enumerable' do
   end
 
   describe '#my_inject' do
-    context 'If only argument is given' do
-      context 'If symbol is given as argument' do
-        it 'return the sum of all element inside the array' do
-          my_array = num_arr.my_inject(:+)
-          original_array = num_arr.inject(:+)
-          expect(my_array).to eql(original_array)
-        end
-
-        it 'return the substraction of all element inside the array' do
-          my_array = num_arr.my_inject(:-)
-          original_array = num_arr.inject(:-)
-          expect(my_array).to eql(original_array)
-        end
-
-        it 'return the multiply of all element inside the array' do
-          my_array = num_arr.my_inject(:*)
-          original_array = num_arr.inject(:*)
-          expect(my_array).to eql(original_array)
-        end
-
-        it 'return true only if all elements are true or false if at least one element is false' do
-          my_array = bool_arr.my_inject(:&)
-          original_array = bool_arr.inject(:&)
-          expect(my_array).to eql(original_array)
-        end
+    context 'If symbol is given as argument' do
+      it 'return the sum of all element inside the array' do
+        my_array = num_arr.my_inject(:+)
+        original_array = num_arr.inject(:+)
+        expect(my_array).to eql(original_array)
       end
 
-      context 'If proc is given as argument' do
-        it 'Its invokes the Proc passed on each element in the array' do
-          my_array = num_arr.my_inject(&block_proc)
-          original_array = num_arr.inject(&block_proc)
-          expect(my_array).to eql(original_array)
-        end
+      it 'return the multiply of all element inside the array' do
+        my_array = num_arr.my_inject(:*)
+        original_array = num_arr.inject(:*)
+        expect(my_array).to eql(original_array)
       end
 
-      context 'If an integer and a symbol are passed as argument' do
-        it 'return the sum of all elements inside the array starting value equal the integer parameter' do
-          my_array = num_arr.my_inject(10, :+)
-          original_array = num_arr.inject(10, :+)
-          expect(my_array).to eql(original_array)
-        end
+      it 'return true only if all elements are true or false if at least one element is false' do
+        my_array = bool_arr.my_inject(:&)
+        original_array = bool_arr.inject(:&)
+        expect(my_array).to eql(original_array)
+      end
+    end
+    
+    context 'If proc is given as argument' do
+      it 'Its invokes the Proc passed on each element in the array' do
+        my_array = num_arr.my_inject(&block_proc)
+        original_array = num_arr.inject(&block_proc)
+        expect(my_array).to eql(original_array)
+      end
+    end
+
+    context 'If an integer and a symbol are passed as argument' do
+      it 'return the sum of all elements inside the array starting value equal the integer parameter' do
+        my_array = num_arr.my_inject(10, :+)
+        original_array = num_arr.inject(10, :+)
+        expect(my_array).to eql(original_array)
       end
     end
 
