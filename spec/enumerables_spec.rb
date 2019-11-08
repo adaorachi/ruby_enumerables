@@ -42,7 +42,7 @@ RSpec.describe 'Enumerable' do
       it 'iterates the given block for each hash item summing up its key and value element' do
         my_hash = []
         original_hash = []
-        hash.my_each { |x, y| my_hash << x.to_s + y.to_s  }
+        hash.my_each { |x, y| my_hash << x.to_s + y.to_s }
         hash.each { |x, y| original_hash << x.to_s + y.to_s }
         expect(my_hash).to eql(original_hash)
       end
@@ -389,7 +389,7 @@ RSpec.describe 'Enumerable' do
         expect(my_array).to eql(original_array)
       end
     end
-    
+
     context 'If proc is given as argument' do
       it 'Its invokes the Proc passed on each element in the array' do
         my_array = num_arr.my_inject(&block_proc)
